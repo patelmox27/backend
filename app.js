@@ -21,7 +21,7 @@
 // console.log("x = ",x)
 
 
-const employee = require("./employee")
+constemployee = require("./employee")
 console.log(employee) //{}
 
 console.log(employee.empName)
