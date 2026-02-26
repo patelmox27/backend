@@ -1,38 +1,59 @@
-// console.log("app file loaded..")
-// ///user file..
+//express require
+const express = require("express")//express module
+//create object of express
+const app = express()
 
-// // const userName = require("./users") //users.js
-// // console.log("userName from users.js",userName)
+// API creation
 
-// const user = require("./users")
-// console.log(user)//{}
+//http://localhost:3333/test
+app.get("/test", (req, res) => {
+  console.log("testApi is called")
+  res.send(" test Api is called.")
+});
 
-// console.log(user.userAge)
+//http://localhost:3333/user
+const user = {
+  id: 1,
+  Name: "zoro",
+  age: 21,
+  salary: 5000,
+};
+app.get("/user", (req, res) => {
 
-// //function call..
-// var ans = user.userData(100) //function -->users.js
-// console.log("ans =",ans)
+  res.json({
+    message: "user",
+    data: user,
+  });
+});
+//http://localhost:3333/users
+const users = [
+  { id: 1, Name: "zoro", age: 21, salary: 5000, },
+  { id: 2, Name: "luffy", age: 21, salary: 5000, },
+  { id: 3, Name: "sanji", age: 20, salary: 5000, },
+  { id: 4, Name: "peter", age: 25, salary: 5000, },
+  { id: 5, Name: "gwen", age: 25, salary: 5000, },
+]
 
-// // const userAge = require("./users")
-// // console.log("userage",userAge)
+app.get("/users", (req, res) => {
+  res.json({
+    message: "users",
+    data: users,
+  })
+})
+//
 
-// console.log("Hello From node js")
-// var x = 100
-// console.log("x = ",x)
-
-
-const employee = require("./employee")
-console.log(employee) //{}
-
-console.log(employee.empName)
-console.log(employee.empSalary)
-
-employee.empData()
-
-
-
-
-
-
-
-
+app.get("/users/:id", (req, res) => {
+  const id = req.params.id;
+  const user = users.find((user) => user.id == id);
+  if (user) {
+    res.send({ message: "user is found", data: user })
+  } else {
+    res.send({ message: `user with id ${id} is not found` })
+  }
+})
+// server creation
+const PORT = 3333
+app.listen(PORT, () => {
+  console.log(`server started on PORT ${PORT}`)
+}
+)
